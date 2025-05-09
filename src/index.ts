@@ -101,13 +101,12 @@ async function onlyOne() {
   }
 }
 //onlyOne();
-//startLoop();
+startLoop();
 
 //https://server.arcadenoeunai.com.br/img/e4da3b7fbbce2345d7772b0674a318d5/680e7c3ec9dc81745779774.jpg
 
-export const ftpUpload = async () => {
+export const ftpUpload = async (destino: string) => {
   try {
-    const destino = "123.png";
     const origen = path.join(IMG, "thumb", `thumb_${destino}`);
     if (await uploadImagem(origen, destino)) {
       if (await deleteImagem(origen)) {
@@ -120,4 +119,4 @@ export const ftpUpload = async () => {
     console.error("Erro ao fazer upload:", error);
   }
 };
-ftpUpload();
+//ftpUpload();
