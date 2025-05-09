@@ -40,12 +40,20 @@ async function main() {
               250,
               "thumb gerada com sucesso"
             );
-            await geraImg(
-              outputPath,
-              path.join(IMG, "cover", `cover_${row.nome}`),
-              600,
-              "cover gerada com sucesso"
-            );
+            if (
+              await uploadImagem(
+                path.join(IMG, "thumb", `thumb_${row.nome}`),
+                `thumb_${row.nome}`
+              )
+            ) {
+              if (
+                await deleteImagem(path.join(IMG, "thumb", `thumb_${row.nome}`))
+              ) {
+                mylog("Imagem deletada com sucesso:");
+              } else {
+                mylog("Erro ao deletar imagem:");
+              }
+            }
             await updateData(row.id);
           }
         } else {
@@ -89,11 +97,6 @@ async function onlyOne() {
         250,
         "thumb gerada com sucesso"
       );
-      await uploadImagem(
-        path.join(IMG, "thumb", `thumb_${row.nome}`),
-        `thumb_${row.nome}`
-      );
-      await updateData(row.id);
     } else {
       await deleteData(row.id);
       mylog("Imagem não encontrada:", row.nome);
