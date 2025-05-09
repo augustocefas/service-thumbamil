@@ -1,7 +1,14 @@
 import path from "path";
 import { BUFFER_NAME, IMG, ROOT } from "./constants";
 import { deleteData, getData, updateData } from "./db";
-import { baixarImagem, geraImg, imagemExiste, mylog, uploadImagem } from "./fc";
+import {
+  baixarImagem,
+  deleteImagem,
+  geraImg,
+  imagemExiste,
+  mylog,
+  uploadImagem,
+} from "./fc";
 import { mkdir } from "fs/promises";
 
 const outputDir = path.join(__dirname, BUFFER_NAME);
@@ -101,9 +108,14 @@ async function onlyOne() {
 export const ftpUpload = async () => {
   try {
     const destino = "123.png";
-
     const origen = path.join(IMG, "thumb", `thumb_${destino}`);
-    await uploadImagem(origen, destino);
+    if (await uploadImagem(origen, destino)) {
+      if (await deleteImagem(origen)) {
+        mylog("Imagem deletada com sucesso:", origen);
+      } else {
+        mylog("Erro ao deletar imagem:", origen);
+      }
+    }
   } catch (error) {
     console.error("Erro ao fazer upload:", error);
   }

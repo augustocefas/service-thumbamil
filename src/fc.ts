@@ -1,6 +1,7 @@
 import sharp from "sharp";
 import axios from "axios";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 import { writeFile } from "fs/promises";
 import { FTP_HOST, FTP_PASS, FTP_PORT, FTP_USER, URL_BASE } from "./constants";
@@ -77,7 +78,6 @@ export async function uploadImagem(
         rejectUnauthorized: false,
       },
     });
-
     mylog("📤 Conectado ao FTP. Enviando:", remotePath);
     await client.uploadFrom(localPath, remotePath);
     mylog("✅ Upload concluído:", remotePath);
@@ -87,6 +87,16 @@ export async function uploadImagem(
     return false;
   } finally {
     client.close();
+  }
+}
+export async function deleteImagem(localPath: string): Promise<boolean> {
+  try {
+    await fs.promises.unlink(localPath);
+    mylog("🗑️ Imagem deletada:", localPath);
+    return true;
+  } catch (error) {
+    console.error("❌ Erro ao deletar imagem:", error);
+    return false;
   }
 }
 
