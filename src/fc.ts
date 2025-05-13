@@ -101,5 +101,7 @@ export async function deleteImagem(localPath: string): Promise<boolean> {
 }
 
 export function mylog(txt: string, txt2?: string, txt3?: string) {
-  console.log(txt, txt2, txt3);
+  if(txt && !txt2 && !txt3){ console.log(txt);}
+  else if(!txt3){ console.log(txt, txt2); }
+  else{ console.log(txt, txt2, txt3);}
 }

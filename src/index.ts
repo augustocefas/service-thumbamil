@@ -46,13 +46,13 @@ async function main() {
                 `thumb_${row.nome}`
               )
             ) {
-              if (
+              /*if (
                 await deleteImagem(path.join(IMG, "thumb", `thumb_${row.nome}`))
               ) {
                 mylog("Imagem deletada com sucesso:");
               } else {
                 mylog("Erro ao deletar imagem:");
-              }
+              }*/
             }
             await updateData(row.id);
           }
@@ -91,6 +91,7 @@ async function onlyOne() {
     if (await imagemExiste(row.nome)) {
       await baixarImagem(row.nome, outputPath);
       mylog("Imagem baixada com sucesso:", row.nome);
+      console.log(IMG);
       await geraImg(
         outputPath,
         path.join(IMG, "thumb", `thumb_${row.nome}`),
